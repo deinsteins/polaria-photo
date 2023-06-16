@@ -1,0 +1,25 @@
+{
+    "portofolio_2": [
+      {
+        "title": "Agus dan Dewi",
+        "primaryImage": "./images/photos/agus_dan_dewi.jpg",
+        "secondaryImage": "./images/photos/agus_dan_dewi_2.jpg"
+      },
+      {
+        "title": "Joko dan Yuli",
+        "primaryImage": "./images/photos/joko_dan_yuli.jpg",
+        "secondaryImage": "./images/photos/joko_dan_yuli_2.jpg"
+      },
+      {
+        "title": "Surya dan Fitri",
+        "primaryImage": "./images/photos/surya_dan_fitri.jpg",
+        "secondaryImage": "./images/photos/surya_dan_fitri_2.jpg"
+      },
+      {
+        "title": "Hadi dan Retno",
+        "primaryImage": "./images/photos/hadi_dan_retno.jpg",
+        "secondaryImage": "./images/photos/hadi_dan_retno_2.jpg"
+      }
+    ]
+  }
+  

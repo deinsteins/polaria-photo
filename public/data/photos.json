@@ -1,0 +1,37 @@
+{
+    "photos": [
+      {
+        "title": "Rudi dan Anita",
+        "image": "./images/photos/rudianita.jpg"
+      },
+      {
+        "title": "Budi dan Siti",
+        "image": "./images/photos/budi_dan_siti.jpg"
+      },
+      {
+        "title": "Hendro dan Rina",
+        "image": "./images/photos/hendro_dan_rina.jpg"
+      },
+      {
+        "title": "Eko dan Wulan",
+        "image": "./images/photos/eko_dan_wulan.jpg"
+      },
+      {
+        "title": "Agus dan Dewi",
+        "image": "./images/photos/agus_dan_dewi.jpg"
+      },
+      {
+        "title": "Joko dan Yuli",
+        "image": "./images/photos/joko_dan_yuli.jpg"
+      },
+      {
+        "title": "Surya dan Fitri",
+        "image": "./images/photos/surya_dan_fitri.jpg"
+      },
+      {
+        "title": "Hadi dan Retno",
+        "image": "./images/photos/hadi_dan_retno.jpg"
+      }
+    ]
+  }
+  
