@@ -3,9 +3,18 @@ import Modal from "../../../components/modal";
 import BookingForm from "../bookingForm";
 import axiosInstance from "../../../api/api_instance";
 import { AxiosError } from "axios";
+import { useAuthHeader } from "react-auth-kit";
+import showToast from "../../../utils/showToast";
+import UploadImageForm from "../UploadImage";
 
 const PriceCard = ({ id, title, price, children, detail }) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [closeModal, setCloseModal] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [bookingId, setBookingId] = useState("");
+  const [file, setFile] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const authHeader = useAuthHeader();
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -13,6 +22,110 @@ const PriceCard = ({ id, title, price, children, detail }) => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
+  };
+
+  const handleSuccessModalOpen = () => {
+    setSuccessModalOpen(true);
+  };
+
+  const handleSuccessModalClose = () => {
+    setSuccessModalOpen(false);
+  };
+
+  const formattedDateString = (datetime) => {
+    const originalDate = new Date(datetime);
+    const formattedDateString = new Date(
+      originalDate.getFullYear(),
+      originalDate.getMonth(),
+      originalDate.getDate() + 1,
+      10, // hours
+      0, // minutes
+      0, // seconds
+      0 // milliseconds
+    ).toISOString();
+    return formattedDateString;
+  };
+
+  const createBooking = async ({ date }) => {
+    try {
+      const responses = await axiosInstance.post(
+        `/products/${id}/book`,
+        {
+          bookingDate: date,
+          paymentStatus: "pending",
+          proofOfPayment: "",
+        },
+        {
+          headers: {
+            Authorization: authHeader(),
+          },
+        }
+      );
+      setBookingId(responses.data.id);
+    } catch (error) {
+      if (error && error instanceof AxiosError) {
+        error.response.data.error;
+      } else if (error && error instanceof Error) error.message;
+    }
+  };
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const formattedDate = formattedDateString(values.bookingDateTime);
+      await createBooking({ date: formattedDate });
+      setSubmitting(false);
+      handleCloseModal();
+      handleSuccessModalOpen();
+    } catch (error) {
+      setSubmitting(false);
+      if (error && error instanceof AxiosError) {
+        error.response.data.error;
+      } else if (error && error instanceof Error) error.message;
+    }
+  };
+
+  const handleUpload = async (values, { setSubmitting }) => {
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("proofOfPayment", file);
+
+      await uploadPaymentProof(formData);
+
+      setSubmitting(false);
+      handleCloseModal();
+      handleSuccessModalClose();
+    } catch (error) {
+      setSubmitting(false);
+      if (error && error instanceof AxiosError) {
+        showToast("error", error.response.data.error);
+      } else if (error && error instanceof Error) error.message;
+    }
+    setIsLoading(false);
+  };
+
+  const handleChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const uploadPaymentProof = async (formData) => {
+    console.log(formData);
+    try {
+      await axiosInstance.put(`/book/${bookingId}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: authHeader(),
+        },
+      });
+      showToast(
+        "success",
+        `Berhasil booking silahkan tunggu di konfirmasi oleh admin`
+      );
+    } catch (error) {
+      if (error && error instanceof AxiosError) {
+        showToast("error", error.response.data.error);
+      } else if (error && error instanceof Error) error.message;
+    }
   };
 
   return (
@@ -23,8 +136,22 @@ const PriceCard = ({ id, title, price, children, detail }) => {
         title={title}
         subtitle="Silahkan Isi Data Berikut"
       >
-        <BookingForm id={id} />
+        <BookingForm id={id} onSubmit={handleSubmit} />
       </Modal>
+
+      <Modal
+        isOpen={successModalOpen}
+        onClose={handleSuccessModalClose}
+        title=""
+        subtitle="Silahkan Lakukan Pembayaran Awal"
+      >
+        <UploadImageForm
+          onUpload={handleUpload}
+          onChange={handleChange}
+          isLoading={isLoading}
+        />
+      </Modal>
+
       <div className="flex flex-col gap-6 bg-blue-100 px-8 py-8 shadow-lg cursor-pointer hover:bg-blue-200 hover:shadow-2xl hover:rounded">
         <h3 className="font-bold text-lg">{title}</h3>
         <span className="text-xl font-bold">

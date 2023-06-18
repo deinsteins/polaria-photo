@@ -15,74 +15,13 @@ const initialValues = {
   bookingDateTime: "",
 };
 
-const BookingForm = ({ id }) => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const authHeader = useAuthHeader();
-  const createBooking = async ({ date }) => {
-    try {
-      await axiosInstance.post(
-        `/products/${id}/book`,
-        {
-          bookingDate: date,
-          paymentStatus: "pending",
-          proofOfPayment: "",
-        },
-        {
-          headers: {
-            Authorization: authHeader(),
-          },
-        }
-      );
-      showToast("success", `Berhasil booking silahkan lakukan pembayaran awal`);
-      handleOpenModal();
-    } catch (error) {
-      if (error && error instanceof AxiosError) {
-        error.response.data.error;
-      } else if (error && error instanceof Error) error.message;
-    }
-  };
-
-  const formattedDateString = (datetime) => {
-    const originalDate = new Date(datetime);
-    const formattedDateString = new Date(
-      originalDate.getFullYear(),
-      originalDate.getMonth(),
-      originalDate.getDate() + 1,
-      10, // hours
-      0, // minutes
-      0, // seconds
-      0 // milliseconds
-    ).toISOString();
-    return formattedDateString;
-  };
-
-  const handleSubmit = (values) => {
-    const formattedDate = formattedDateString(values.bookingDateTime);
-    createBooking({ date: formattedDate });
-  };
-
-  const handleOpenModal = () => {
-    setModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setModalOpen(false);
-  };
-
+const BookingForm = ({ onSubmit }) => {
   return (
     <div className="flex">
-      <Modal
-        isOpen={modalOpen}
-        onClose={handleCloseModal}
-        title="Pembayaran"
-        subtitle="Silahkan Upload Bukti Pembayaran"
-      >
-        Upload Bukti
-      </Modal>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
       >
         {({ errors, touched }) => (
           <Form className="flex flex-col gap-4">
