@@ -7,11 +7,24 @@ import { useEffect, useState } from "react";
 import { InitialBookingData } from "..";
 import { AxiosError } from "axios";
 import moment from "moment";
+import Modal from "../../../components/modal";
+import SendPhotoForm from "./sendPhotoForm";
 
 const Booking = () => {
   const authHeader = useAuthHeader();
   const [bookingData, setBookingData] = useState(InitialBookingData);
   const [payment, setPayment] = useState(false);
+  const [bundleId, setBundleId] = useState("");
+  const [bundle, setBundle] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
 
   const options = {
     day: "2-digit",
@@ -106,10 +119,34 @@ const Booking = () => {
       ),
       button: true,
     },
+    {
+      name: "Kirim Link Photo",
+      cell: (row) => (
+        <button
+          onClick={() => {
+            handleOpenModal();
+            setBundleId(row.id);
+          }}
+          target="blank"
+          className="px-2 py-1 bg-yellow-300 text-black rounded-lg"
+        >
+          Kirim Photo
+        </button>
+      ),
+      button: true,
+    },
   ];
 
   return (
     <>
+      <Modal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        title="Kirim Link Photo"
+        subtitle="Silahkan Isi Link"
+      >
+        <SendPhotoForm id={bundleId} setBundle={setBundle} bundle={bundle} />
+      </Modal>
       <DataTable
         columns={columns}
         data={bookingData}
