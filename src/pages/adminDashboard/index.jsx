@@ -8,8 +8,10 @@ import { AxiosError } from "axios";
 import User from "./User";
 import { useAuthHeader } from "react-auth-kit";
 import Booking from "./Booking";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader";
 
-const InitialBookingData = [
+export const InitialBookingData = [
   {
     id: 0,
     bookingDate: "",
@@ -22,21 +24,20 @@ const InitialBookingData = [
 ];
 
 const AdminDashboard = () => {
-  const [bundleData, setBundleData] = useState([]);
   const [userData, setUserData] = useState({});
-  const [bookingData, setBookingData] = useState(InitialBookingData);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const authHeader = useAuthHeader();
+  const navigate = useNavigate();
+  const role = sessionStorage.getItem("role");
 
-  const getBundleData = async () => {
-    try {
-      const response = await axiosInstance.get("/products");
-      setBundleData(response.data);
-    } catch (error) {
-      if (error && error instanceof AxiosError) {
-        setError(error.response.data.error);
-      } else if (error && error instanceof Error) setError(error.message);
+  const checkIsAdmin = () => {
+    if (role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/dashboard");
     }
+    setIsLoading(false);
   };
 
   const getUserData = async () => {
@@ -54,25 +55,10 @@ const AdminDashboard = () => {
     }
   };
 
-  const getBookingData = async () => {
-    try {
-      const response = await axiosInstance.get("/book", {
-        headers: {
-          Authorization: authHeader(),
-        },
-      });
-      setBookingData(response.data);
-    } catch (error) {
-      if (error && error instanceof AxiosError) {
-        setError(error.response.data.error);
-      } else if (error && error instanceof Error) setError(error.message);
-    }
-  };
-
   useEffect(() => {
-    getBundleData();
+    checkIsAdmin();
+    // getBundleData();
     getUserData();
-    getBookingData();
   }, []);
 
   const tabs = [
@@ -80,7 +66,7 @@ const AdminDashboard = () => {
       id: 1,
       tabTitle: "Data Booking ",
       title: "Booking",
-      content: <Booking data={bookingData} />,
+      content: <Booking />,
     },
     {
       id: 2,
@@ -92,16 +78,20 @@ const AdminDashboard = () => {
       id: 3,
       tabTitle: "Daftar Paket",
       title: "",
-      content: <Bundle data={bundleData} />,
+      content: <Bundle />,
     },
   ];
 
   return (
     <>
       <NavBar bgnav={"#b7a58d"} />
-      <div className="flex min-h-screen">
-        <Tabs tabs={tabs} />
-      </div>
+      {isLoading ? (
+        <Loader text="Memuat" />
+      ) : (
+        <div className="flex min-h-screen">
+          <Tabs tabs={tabs} />
+        </div>
+      )}
       <Footer />
     </>
   );

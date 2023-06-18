@@ -5,9 +5,13 @@ import Hero from "../../components/hero";
 import NavBar from "../../components/navbar";
 import Quote from "../../components/quote";
 import { AiOutlineLine } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const [data, setData] = useState("");
+  const userRole = useSelector((state) => state.role);
+  const role = sessionStorage.getItem("role");
+
   const getData = async () => {
     try {
       const response = await fetch("data/photos.json");
@@ -23,7 +27,7 @@ const Home = () => {
   return (
     <div className="w-full h-full">
       <header className="absolute top-0 z-50 w-full">
-        <NavBar bgnav={"#ad9b7900"} />
+        <NavBar bgnav={"#ad9b7900"} role={role} userRole={userRole} />
       </header>
       <Hero />
       <div className="bg-[#EEEBE7] py-28 px-60 text-center font-semibold">

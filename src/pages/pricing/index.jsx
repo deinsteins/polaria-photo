@@ -33,8 +33,7 @@ const Pricing = () => {
       </h1>
       <div className="flex justify-center gap-12 mt-8 py-8">
         {bundle.map((bundle) => {
-          const detailsString = bundle.details.replace(/'/g, '"');
-          const detailsArray = JSON.parse(detailsString);
+          const detailsArray = bundle.details;
           return (
             <PriceCard
               id={bundle.id}

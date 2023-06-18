@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Pricing from "./pages/pricing";
 import Portofolio from "./pages/portofolio";
 import Login from "./pages/login";
@@ -7,7 +7,6 @@ import Home from "./pages/home";
 import { AuthProvider, useIsAuthenticated } from "react-auth-kit";
 import AdminDashboard from "./pages/adminDashboard";
 import Dashboard from "./pages/dashboard";
-
 function App() {
   return (
     <AuthProvider

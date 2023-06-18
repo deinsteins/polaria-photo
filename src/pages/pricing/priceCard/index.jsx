@@ -6,10 +6,10 @@ import { AxiosError } from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import showToast from "../../../utils/showToast";
 import UploadImageForm from "../UploadImage";
+import moment from "moment-timezone";
 
 const PriceCard = ({ id, title, price, children, detail }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [closeModal, setCloseModal] = useState(false);
   const [successModalOpen, setSuccessModalOpen] = useState(false);
   const [bookingId, setBookingId] = useState("");
   const [file, setFile] = useState("");
@@ -32,26 +32,15 @@ const PriceCard = ({ id, title, price, children, detail }) => {
     setSuccessModalOpen(false);
   };
 
-  const formattedDateString = (datetime) => {
-    const originalDate = new Date(datetime);
-    const formattedDateString = new Date(
-      originalDate.getFullYear(),
-      originalDate.getMonth(),
-      originalDate.getDate() + 1,
-      10, // hours
-      0, // minutes
-      0, // seconds
-      0 // milliseconds
-    ).toISOString();
-    return formattedDateString;
-  };
-
-  const createBooking = async ({ date }) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      console.log(values.bookingDateTime);
+      const formattedDate = moment.utc(values.bookingDateTime).format();
+      console.log(formattedDate);
       const responses = await axiosInstance.post(
         `/products/${id}/book`,
         {
-          bookingDate: date,
+          bookingDate: formattedDate,
           paymentStatus: "pending",
           proofOfPayment: "",
         },
@@ -62,25 +51,14 @@ const PriceCard = ({ id, title, price, children, detail }) => {
         }
       );
       setBookingId(responses.data.id);
-    } catch (error) {
-      if (error && error instanceof AxiosError) {
-        error.response.data.error;
-      } else if (error && error instanceof Error) error.message;
-    }
-  };
-
-  const handleSubmit = async (values, { setSubmitting }) => {
-    try {
-      const formattedDate = formattedDateString(values.bookingDateTime);
-      await createBooking({ date: formattedDate });
       setSubmitting(false);
       handleCloseModal();
       handleSuccessModalOpen();
     } catch (error) {
-      setSubmitting(false);
       if (error && error instanceof AxiosError) {
-        error.response.data.error;
-      } else if (error && error instanceof Error) error.message;
+        showToast("error", error.response.data.error);
+      } else if (error && error instanceof Error)
+        showToast("error", error.response.data.error);
     }
   };
 

@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 import axiosInstance from "../../api/api_instance";
 import showToast from "../../utils/showToast";
+import { useDispatch } from "react-redux";
+import { setUserRole } from "../../redux/actions/actions";
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -21,11 +23,14 @@ const Login = () => {
   const [error, setError] = useState("");
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
     setError("");
     try {
       const response = await axiosInstance.post("/login", values);
+      dispatch(setUserRole(response.data.role));
+      sessionStorage.setItem("role", response.data.role);
 
       signIn({
         token: response.data.token,

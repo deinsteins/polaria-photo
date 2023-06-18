@@ -1,9 +1,11 @@
 import { useIsAuthenticated } from "react-auth-kit";
 import { useSignOut } from "react-auth-kit";
+import { useSelector } from "react-redux";
 
-const NavBar = ({ bgnav }) => {
+const NavBar = ({ bgnav, role, userRole }) => {
   const isAuthenticated = useIsAuthenticated();
   const signOut = useSignOut();
+
   return (
     <div
       className="flex justify-between p-6 gap-12"
@@ -18,7 +20,11 @@ const NavBar = ({ bgnav }) => {
           <a href="portofolio">PORTOFOLIO</a>
           {isAuthenticated() ? (
             <div className="flex gap-16">
-              <a href="dashboard">DASHBOARD</a>
+              {userRole || role === "admin" ? (
+                <a href="admin">DASHBOARD</a>
+              ) : (
+                <a href="dashboard">DASHBOARD</a>
+              )}
               <button onClick={() => signOut()}>LOG OUT</button>
             </div>
           ) : (
