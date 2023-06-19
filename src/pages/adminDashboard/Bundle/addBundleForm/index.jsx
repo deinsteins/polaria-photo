@@ -1,14 +1,14 @@
 import { Formik, Field, FieldArray, ErrorMessage, Form } from "formik";
-import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import axiosInstance from "../../../../api/api_instance";
 import { AxiosError } from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import showToast from "../../../../utils/showToast";
+import PropTypes from "prop-types";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Nama Paket wajib diisi"),
-  price: Yup.number().required("price wajib diisi"),
+  price: Yup.number().required("Harga wajib diisi"),
   details: Yup.array().of(Yup.string()).required("Detail Paket wajib diisi"),
 });
 
@@ -32,7 +32,7 @@ const AddBundleForm = ({ setBundle, bundle }) => {
         }
       );
       setBundle(!bundle);
-      showToast("success", "Paket Berhasil di tambah");
+      showToast("success", "Paket Berhasil ditambahkan");
     } catch (error) {
       if (error && error instanceof AxiosError) {
         error.response.data.error;
@@ -131,6 +131,11 @@ const AddBundleForm = ({ setBundle, bundle }) => {
       </Formik>
     </div>
   );
+};
+
+AddBundleForm.propTypes = {
+  setBundle: PropTypes.func.isRequired,
+  bundle: PropTypes.bool.isRequired,
 };
 
 export default AddBundleForm;

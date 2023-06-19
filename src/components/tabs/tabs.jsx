@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const Tabs = ({ tabs }) => {
   const [currentTab, setCurrentTab] = useState("1");
@@ -36,6 +37,17 @@ const Tabs = ({ tabs }) => {
       </div>
     </div>
   );
+};
+
+Tabs.propTypes = {
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      tabTitle: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      content: PropTypes.object.isRequired,
+    })
+  ).isRequired,
 };
 
 export default Tabs;

@@ -1,14 +1,13 @@
 import DataTable from "react-data-table-component";
-import { formatDate } from "../../../utils/formatDate";
 import axiosInstance from "../../../api/api_instance";
 import { useAuthHeader } from "react-auth-kit";
 import showToast from "../../../utils/showToast";
 import { useEffect, useState } from "react";
 import { InitialBookingData } from "..";
 import { AxiosError } from "axios";
-import moment from "moment";
 import Modal from "../../../components/modal";
 import SendPhotoForm from "./sendPhotoForm";
+import BookingDetail from "./bookingDetail";
 
 const Booking = () => {
   const authHeader = useAuthHeader();
@@ -17,6 +16,7 @@ const Booking = () => {
   const [bundleId, setBundleId] = useState("");
   const [bundle, setBundle] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -85,14 +85,6 @@ const Booking = () => {
       selector: (row) => row.status,
     },
     {
-      name: "ID Product",
-      selector: (row) => row.productId,
-    },
-    {
-      name: "ID User",
-      selector: (row) => row.userId,
-    },
-    {
       name: "Konfirmasi Pembayaran",
       cell: (row) => (
         <button
@@ -135,6 +127,22 @@ const Booking = () => {
       ),
       button: true,
     },
+    {
+      name: "Lihat Detail",
+      cell: (row) => (
+        <button
+          onClick={() => {
+            setDetailModalOpen(true);
+            setBundleId(row.id);
+          }}
+          target="blank"
+          className="px-2 py-1 bg-orange-500 text-white rounded-lg"
+        >
+          Lihat Detail
+        </button>
+      ),
+      button: true,
+    },
   ];
 
   return (
@@ -146,6 +154,14 @@ const Booking = () => {
         subtitle="Silahkan Isi Link"
       >
         <SendPhotoForm id={bundleId} setBundle={setBundle} bundle={bundle} />
+      </Modal>
+      <Modal
+        isOpen={detailModalOpen}
+        onClose={() => setDetailModalOpen(false)}
+        title="Detail Booking"
+        subtitle=""
+      >
+        <BookingDetail id={bundleId} />
       </Modal>
       <DataTable
         columns={columns}

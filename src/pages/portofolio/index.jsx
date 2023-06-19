@@ -5,6 +5,7 @@ import Wrapper from "./wrapper";
 
 const Portofolio = () => {
   const [portofolio, setPortofolio] = useState([]);
+  const role = sessionStorage.getItem("role");
 
   const getportofolio = async () => {
     try {
@@ -23,7 +24,7 @@ const Portofolio = () => {
 
   return (
     <div className="">
-      <NavBar bgnav={"#b7a58d"} />
+      <NavBar bgnav={"#b7a58d"} role={role} />
       {portofolio &&
       portofolio.portofolios &&
       portofolio.portofolios.length > 0 ? (

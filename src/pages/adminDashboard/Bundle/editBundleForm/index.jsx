@@ -6,10 +6,11 @@ import { AxiosError } from "axios";
 import { useAuthHeader } from "react-auth-kit";
 import showToast from "../../../../utils/showToast";
 import Loader from "../../../../components/loader";
+import PropTypes from "prop-types";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Nama Paket wajib diisi"),
-  price: Yup.number().required("price wajib diisi"),
+  price: Yup.number().required("Harga wajib diisi"),
   details: Yup.array().of(Yup.string()).required("Detail Paket wajib diisi"),
 });
 
@@ -31,7 +32,7 @@ const EditBundleForm = ({ id, setBundle, bundle }) => {
 
   useEffect(() => {
     getBundleDataById(id);
-  });
+  }, [id]);
 
   const initialValues = {
     name: bundleDataById.name,
@@ -40,7 +41,7 @@ const EditBundleForm = ({ id, setBundle, bundle }) => {
   };
   const handleSubmit = async (values) => {
     try {
-      const response = await axiosInstance.put(
+      await axiosInstance.put(
         `/products/${id}`,
         { ...values },
         {
@@ -76,7 +77,6 @@ const EditBundleForm = ({ id, setBundle, bundle }) => {
                 id="name"
                 name="name"
                 className="w-full border-gray-300 border-2 rounded-md p-2"
-                //   value={bundleDataById.name}
               />
               <ErrorMessage
                 name="name"
@@ -94,7 +94,6 @@ const EditBundleForm = ({ id, setBundle, bundle }) => {
                 id="price"
                 name="price"
                 className="w-full border-gray-300 rounded-md border-2 p-2"
-                //   value={bundleDataById.price}
               />
               <ErrorMessage
                 name="price"
@@ -155,6 +154,12 @@ const EditBundleForm = ({ id, setBundle, bundle }) => {
       )}
     </div>
   );
+};
+
+EditBundleForm.propTypes = {
+  id: PropTypes.string.isRequired,
+  setBundle: PropTypes.func.isRequired,
+  bundle: PropTypes.bool.isRequired,
 };
 
 export default EditBundleForm;

@@ -10,6 +10,7 @@ import { useAuthHeader } from "react-auth-kit";
 import Booking from "./Booking";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/loader";
+import showToast from "../../utils/showToast";
 
 export const InitialBookingData = [
   {
@@ -26,7 +27,6 @@ export const InitialBookingData = [
 const AdminDashboard = () => {
   const [userData, setUserData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(false);
   const authHeader = useAuthHeader();
   const navigate = useNavigate();
   const role = sessionStorage.getItem("role");
@@ -50,8 +50,9 @@ const AdminDashboard = () => {
       setUserData(response.data);
     } catch (error) {
       if (error && error instanceof AxiosError) {
-        setError(error.response.data.error);
-      } else if (error && error instanceof Error) setError(error.message);
+        showToast("error", error.response.data.error);
+      } else if (error && error instanceof Error)
+        showToast("error", error.message);
     }
   };
 
@@ -84,7 +85,7 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <NavBar bgnav={"#b7a58d"} />
+      <NavBar bgnav={"#b7a58d"} role={role} />
       {isLoading ? (
         <Loader text="Memuat" />
       ) : (

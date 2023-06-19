@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "../../../components/modal";
 import BookingForm from "../bookingForm";
 import axiosInstance from "../../../api/api_instance";
@@ -7,6 +7,7 @@ import { useAuthHeader } from "react-auth-kit";
 import showToast from "../../../utils/showToast";
 import UploadImageForm from "../UploadImage";
 import moment from "moment-timezone";
+import PropTypes from "prop-types";
 
 const PriceCard = ({ id, title, price, children, detail }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -15,6 +16,9 @@ const PriceCard = ({ id, title, price, children, detail }) => {
   const [file, setFile] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const authHeader = useAuthHeader();
+  const formattedNumber = price
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -35,13 +39,16 @@ const PriceCard = ({ id, title, price, children, detail }) => {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       console.log(values.bookingDateTime);
+      console.log(values.location);
       const formattedDate = moment.utc(values.bookingDateTime).format();
       console.log(formattedDate);
       const responses = await axiosInstance.post(
         `/products/${id}/book`,
         {
           bookingDate: formattedDate,
+          location: values.location,
           paymentStatus: "pending",
+          status: "belum selesai",
           proofOfPayment: "",
         },
         {
@@ -134,7 +141,7 @@ const PriceCard = ({ id, title, price, children, detail }) => {
         <h3 className="font-bold text-lg">{title}</h3>
         <span className="text-xl font-bold">
           <span className="mr-1 text-2xl">Rp</span>
-          {price}
+          {formattedNumber}
         </span>
         <button
           onClick={handleOpenModal}
@@ -147,6 +154,14 @@ const PriceCard = ({ id, title, price, children, detail }) => {
       </div>
     </>
   );
+};
+
+PriceCard.propTypes = {
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  price: PropTypes.string.isRequired,
+  children: PropTypes.node,
+  detail: PropTypes.string,
 };
 
 export default PriceCard;

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import DataTable from "react-data-table-component";
 
 const columns = [

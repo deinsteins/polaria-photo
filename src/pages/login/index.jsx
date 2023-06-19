@@ -1,5 +1,4 @@
 import { AxiosError } from "axios";
-import { useState } from "react";
 import { useSignIn } from "react-auth-kit";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -20,13 +19,11 @@ const schema = Yup.object().shape({
 });
 
 const Login = () => {
-  const [error, setError] = useState("");
   const signIn = useSignIn();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async (values) => {
-    setError("");
     try {
       const response = await axiosInstance.post("/login", values);
       dispatch(setUserRole(response.data.role));
@@ -41,8 +38,9 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       if (error && error instanceof AxiosError) {
-        setError(error.message);
-      } else if (error && error instanceof Error) setError(error.message);
+        showToast("error", error.message);
+      } else if (error && error instanceof Error)
+        showToast("error", error.message);
       showToast("error", "Email atau password salah");
     }
   };

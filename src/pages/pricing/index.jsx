@@ -4,11 +4,11 @@ import NavBar from "../../components/navbar";
 import PriceCard from "./priceCard";
 import axiosInstance from "../../api/api_instance";
 import { AxiosError } from "axios";
-import Modal from "../../components/modal";
+import showToast from "../../utils/showToast";
 
 const Pricing = () => {
   const [bundle, setBundle] = useState([]);
-  const [error, setError] = useState("");
+  const role = sessionStorage.getItem("role");
 
   const getBundleData = async () => {
     try {
@@ -16,8 +16,9 @@ const Pricing = () => {
       setBundle(response.data);
     } catch (error) {
       if (error && error instanceof AxiosError) {
-        setError(error.response.data.error);
-      } else if (error && error instanceof Error) setError(error.message);
+        showToast("error", error.response.data.error);
+      } else if (error && error instanceof Error)
+        showToast("error", error.message);
     }
   };
 
@@ -27,7 +28,7 @@ const Pricing = () => {
 
   return (
     <div className="w-full h-full">
-      <NavBar bgnav={"#b7a58d"} />
+      <NavBar bgnav={"#b7a58d"} role={role} />
       <h1 className="text-3xl font-bold text-center mt-4">
         Silahkan Pilih Paket yang diinginkan
       </h1>

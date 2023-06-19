@@ -1,5 +1,5 @@
-import { Formik, Field, FieldArray, ErrorMessage, Form } from "formik";
-import { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import { Formik, Field, ErrorMessage, Form } from "formik";
 import * as Yup from "yup";
 import axiosInstance from "../../../../api/api_instance";
 import { AxiosError } from "axios";
@@ -7,15 +7,12 @@ import { useAuthHeader } from "react-auth-kit";
 import showToast from "../../../../utils/showToast";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Link Wajib Di isi"),
+  linkPhoto: Yup.string().required("Link Wajib Di isi"),
 });
 
 const SendPhotoForm = ({ id, setBundle, bundle }) => {
   const authHeader = useAuthHeader();
 
-  const initialValues = {
-    name: "",
-  };
   const handleSubmit = async (values) => {
     try {
       await axiosInstance.put(
@@ -30,7 +27,7 @@ const SendPhotoForm = ({ id, setBundle, bundle }) => {
         }
       );
       setBundle(!bundle);
-      showToast("success", `Berhasil kirim link photo`);
+      showToast("success", "Berhasil kirim link photo");
     } catch (error) {
       if (error && error instanceof AxiosError) {
         error.response.data.error;
@@ -41,23 +38,23 @@ const SendPhotoForm = ({ id, setBundle, bundle }) => {
   return (
     <div className="max-w-md mx-auto">
       <Formik
-        initialValues={initialValues}
+        initialValues={{ linkPhoto: "" }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         <Form>
           <div className="mb-4">
-            <label htmlFor="name" className="block font-semibold">
+            <label htmlFor="linkPhoto" className="block font-semibold">
               Link Photo
             </label>
             <Field
               type="text"
-              id="name"
-              name="name"
+              id="linkPhoto"
+              name="linkPhoto"
               className="w-full border-gray-300 border-2 rounded-md p-2"
             />
             <ErrorMessage
-              name="name"
+              name="linkPhoto"
               component="div"
               className="text-red-600 mt-2"
             />
@@ -67,7 +64,7 @@ const SendPhotoForm = ({ id, setBundle, bundle }) => {
             type="submit"
             className="bg-green-500 text-white rounded-md px-4 py-2"
           >
-            Simpan
+            Kirim
           </button>
         </Form>
       </Formik>

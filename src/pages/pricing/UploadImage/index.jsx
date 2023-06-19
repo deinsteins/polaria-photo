@@ -1,5 +1,5 @@
 import { Formik, Form, ErrorMessage } from "formik";
-import { useState } from "react";
+import PropTypes from "prop-types";
 import Loader from "../../../components/loader";
 // import * as Yup from "yup";
 
@@ -52,6 +52,12 @@ const UploadImageForm = ({ onUpload, onChange, isLoading }) => {
       )}
     </div>
   );
+};
+
+UploadImageForm.propTypes = {
+  onUpload: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default UploadImageForm;

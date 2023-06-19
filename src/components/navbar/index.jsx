@@ -1,6 +1,6 @@
 import { useIsAuthenticated } from "react-auth-kit";
 import { useSignOut } from "react-auth-kit";
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 const NavBar = ({ bgnav, role, userRole }) => {
   const isAuthenticated = useIsAuthenticated();
@@ -34,6 +34,12 @@ const NavBar = ({ bgnav, role, userRole }) => {
       </div>
     </div>
   );
+};
+
+NavBar.propTypes = {
+  bgnav: PropTypes.string,
+  role: PropTypes.string,
+  userRole: PropTypes.string,
 };
 
 export default NavBar;

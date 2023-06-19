@@ -1,4 +1,5 @@
 import AnimatedContainer from "../../../components/animatedContainer";
+import PropTypes from "prop-types";
 
 const Wrapper = ({ title, primaryImg, secondaryImg, reverse }) => {
   return (
@@ -25,6 +26,13 @@ const Wrapper = ({ title, primaryImg, secondaryImg, reverse }) => {
       </div>
     </div>
   );
+};
+
+Wrapper.propTypes = {
+  title: PropTypes.string.isRequired,
+  primaryImg: PropTypes.string.isRequired,
+  secondaryImg: PropTypes.string.isRequired,
+  reverse: PropTypes.bool,
 };
 
 export default Wrapper;

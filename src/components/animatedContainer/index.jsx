@@ -1,11 +1,12 @@
 import { useRef, useEffect } from "react";
 import { TweenMax } from "gsap";
+import PropTypes from "prop-types";
 
 const AnimatedContainer = ({ children }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    // Use TweenMax to animate the container element
+    // Gunakan TweenMax untuk menganimasikan elemen kontainer
     TweenMax.from(containerRef.current, 1, { opacity: 0, y: -10 });
     TweenMax.to(containerRef.current, 1, {
       y: 10,
@@ -14,7 +15,7 @@ const AnimatedContainer = ({ children }) => {
       repeat: -1,
     });
 
-    // Cleanup on unmount
+    // Membersihkan saat komponen di-unmount
     return () => {
       TweenMax.killTweensOf(containerRef.current);
     };
@@ -25,6 +26,10 @@ const AnimatedContainer = ({ children }) => {
       {children}
     </div>
   );
+};
+
+AnimatedContainer.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AnimatedContainer;

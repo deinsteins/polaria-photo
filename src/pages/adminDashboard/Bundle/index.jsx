@@ -34,7 +34,7 @@ const Bundle = () => {
       name: "Aksi",
       cell: (row) => (
         <>
-          <div className="flex gap-2">
+          <div className="flex flex-1 gap-2">
             <button
               className="px-2 py-1 bg-orange-600 text-white rounded-lg"
               onClick={async () => {

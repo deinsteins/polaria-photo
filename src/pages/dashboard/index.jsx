@@ -24,9 +24,10 @@ const tabs = [
 ];
 
 const Dashboard = () => {
+  const role = sessionStorage.getItem("role");
   return (
     <>
-      <NavBar bgnav={"#b7a58d"} />
+      <NavBar bgnav={"#b7a58d"} role={role} />
       <div className="flex">
         <Tabs tabs={tabs} />
       </div>
