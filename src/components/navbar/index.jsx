@@ -1,10 +1,12 @@
 import { useIsAuthenticated } from "react-auth-kit";
 import { useSignOut } from "react-auth-kit";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = ({ bgnav, role, userRole }) => {
   const isAuthenticated = useIsAuthenticated();
   const signOut = useSignOut();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -25,7 +27,15 @@ const NavBar = ({ bgnav, role, userRole }) => {
               ) : (
                 <a href="dashboard">DASHBOARD</a>
               )}
-              <button onClick={() => signOut()}>LOG OUT</button>
+              <button
+                onClick={() => {
+                  signOut();
+                  sessionStorage.clear("role");
+                  navigate("/");
+                }}
+              >
+                LOG OUT
+              </button>
             </div>
           ) : (
             <a href="login">LOGIN/DAFTAR</a>
