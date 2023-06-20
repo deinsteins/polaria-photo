@@ -4,6 +4,7 @@ import NavBar from "../../components/navbar";
 import Tabs from "../../components/tabs/tabs";
 import { Navigate } from "react-router-dom";
 import BookingHistory from "./bookingHistory";
+import PhotoGallery from "./photoGallery";
 
 const Dashboard = () => {
   const role = sessionStorage.getItem("role");
@@ -19,8 +20,8 @@ const Dashboard = () => {
     {
       id: 3,
       tabTitle: "Galeri Photo",
-      title: "Galeri Photo",
-      content: "",
+      title: "",
+      content: <PhotoGallery />,
     },
   ];
 

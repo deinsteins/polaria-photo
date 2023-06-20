@@ -4,6 +4,7 @@ import axiosInstance from "../../../../api/api_instance";
 import { AxiosError } from "axios";
 import Loader from "../../../../components/loader";
 import { useAuthHeader } from "react-auth-kit";
+import { formatDate } from "../../../../utils/formatDate";
 
 const BookingDetail = ({ id }) => {
   const [bookingData, setBookingData] = useState({});
@@ -27,19 +28,6 @@ const BookingDetail = ({ id }) => {
   useEffect(() => {
     getBookingDataById();
   }, []);
-
-  const formatDate = (dateString) => {
-    const options = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    };
-
-    const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", options);
-  };
 
   return bookingData ? (
     <div className="flex gap-4">

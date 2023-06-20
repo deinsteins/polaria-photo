@@ -126,8 +126,8 @@ const PriceCard = ({ id, title, price, children, detail }) => {
       <Modal
         isOpen={successModalOpen}
         onClose={handleSuccessModalClose}
-        title=""
-        subtitle="Silahkan Lakukan Pembayaran Awal"
+        title="Pembayaran Awal"
+        subtitle="Transfer Sebesar Rp 400.000"
       >
         <UploadImageForm
           onUpload={handleUpload}
@@ -136,7 +136,7 @@ const PriceCard = ({ id, title, price, children, detail }) => {
         />
       </Modal>
 
-      <div className="flex flex-col gap-6 bg-blue-100 px-8 py-8 shadow-lg cursor-pointer hover:bg-blue-200 hover:shadow-2xl hover:rounded">
+      <div className="flex flex-col gap-6 bg-blue-100 px-8 py-8 max-w-[18rem] shadow-lg cursor-pointer hover:bg-blue-200 hover:shadow-2xl hover:rounded">
         <h3 className="font-bold text-lg">{title}</h3>
         <span className="text-xl font-bold">
           <span className="mr-1 text-2xl">Rp</span>

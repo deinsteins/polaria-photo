@@ -8,6 +8,7 @@ import { AxiosError } from "axios";
 import Modal from "../../../components/modal";
 import SendPhotoForm from "./sendPhotoForm";
 import BookingDetail from "./bookingDetail";
+import { formatDate } from "../../../utils/formatDate";
 
 const Booking = () => {
   const authHeader = useAuthHeader();
@@ -24,14 +25,6 @@ const Booking = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-  };
-
-  const options = {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
   };
 
   const getBookingData = async () => {
@@ -60,8 +53,7 @@ const Booking = () => {
   const columns = [
     {
       name: "Tanggal Booking",
-      selector: (row) =>
-        new Date(row.bookingDate).toLocaleDateString("id-ID", options),
+      selector: (row) => formatDate(row.bookingDate),
     },
     {
       name: "Bukti Pembayaran",

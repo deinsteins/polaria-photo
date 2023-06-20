@@ -33,7 +33,7 @@ const Pricing = () => {
       <h1 className="text-3xl font-bold text-center mt-4">
         Silahkan Pilih Paket yang diinginkan
       </h1>
-      <div className="flex flex-col items-center gap-4 mt-8 py-8 px-4 sm:px-0">
+      <div className="flex justify-center gap-4 mt-8 py-8 px-4 sm:px-0">
         {bundle.map((bundle) => {
           const detailsArray = bundle.details;
           return (

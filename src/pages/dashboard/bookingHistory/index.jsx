@@ -5,11 +5,12 @@ import showToast from "../../../utils/showToast";
 import { useAuthHeader } from "react-auth-kit";
 import { AxiosError } from "axios";
 import { InitialBookingData } from "../../adminDashboard";
+import { formatDate } from "../../../utils/formatDate";
 
 const columns = [
   {
     name: "Tanggal Booking",
-    selector: (row) => row.bookingDate,
+    selector: (row) => formatDate(row.bookingDate),
   },
   {
     name: "Paket Yang di Booking",
@@ -54,14 +55,14 @@ const BookingHistory = () => {
   }, []);
 
   return (
-    <>
+    <div className="h-screen">
       <DataTable
         columns={columns}
         data={bookingData}
         selectableRows
         pagination
       />
-    </>
+    </div>
   );
 };
 
