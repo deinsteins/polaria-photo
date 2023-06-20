@@ -4,7 +4,7 @@ import Portofolio from "./pages/portofolio";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Home from "./pages/home";
-import { AuthProvider, useIsAuthenticated } from "react-auth-kit";
+import { AuthProvider } from "react-auth-kit";
 import AdminDashboard from "./pages/adminDashboard";
 import Dashboard from "./pages/dashboard";
 function App() {

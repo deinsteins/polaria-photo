@@ -134,7 +134,7 @@ const Register = () => {
                 )}
             </div>
           </div>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 mt-4">
             <button
               className="bg-[#ffe1a5] px-2 py-3 rounded-lg hover:bg-[#ffc655]"
               type="submit"

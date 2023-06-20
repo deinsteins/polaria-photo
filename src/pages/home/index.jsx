@@ -21,21 +21,23 @@ const Home = () => {
       console.log("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     getData();
   }, []);
+
   return (
     <div className="w-full h-full">
       <header className="absolute top-0 z-50 w-full">
         <NavBar bgnav={"#ad9b7900"} role={role} userRole={userRole} />
       </header>
       <Hero />
-      <div className="bg-[#EEEBE7] py-28 px-60 text-center font-semibold">
+      <div className="bg-[#EEEBE7] py-10 sm:py-28 px-6 sm:px-60 text-center font-semibold">
         <Quote />
-        <AiOutlineLine className="mx-auto mt-16" size={40} />
+        <AiOutlineLine className="mx-auto mt-6 sm:mt-16" size={40} />
       </div>
-      <div className="px-16 py-20">
-        <div className="flex flex-wrap gap-6 justify-between">
+      <div className="px-4 sm:px-16 py-6 sm:py-20">
+        <div className="flex flex-wrap gap-4 sm:gap-6 justify-between">
           {data &&
             data.photos.map((photo, index) => {
               return (
@@ -49,7 +51,7 @@ const Home = () => {
               );
             })}
         </div>
-        <div className="mt-16 w-fit mx-auto">
+        <div className="mt-8 sm:mt-16 w-fit mx-auto">
           <a
             className="text-gray-700 hover:text-black mx-auto"
             href="portofolio"

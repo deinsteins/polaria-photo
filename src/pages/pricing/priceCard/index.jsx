@@ -38,10 +38,7 @@ const PriceCard = ({ id, title, price, children, detail }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      console.log(values.bookingDateTime);
-      console.log(values.location);
       const formattedDate = moment.utc(values.bookingDateTime).format();
-      console.log(formattedDate);
       const responses = await axiosInstance.post(
         `/products/${id}/book`,
         {
@@ -63,7 +60,9 @@ const PriceCard = ({ id, title, price, children, detail }) => {
       handleSuccessModalOpen();
     } catch (error) {
       if (error && error instanceof AxiosError) {
-        showToast("error", error.response.data.error);
+        error.response.data.error === "Unauthorized"
+          ? showToast("error", "Silahkan login terlebih dahulu")
+          : showToast("error", error.response.data.error);
       } else if (error && error instanceof Error)
         showToast("error", error.response.data.error);
     }
@@ -104,7 +103,7 @@ const PriceCard = ({ id, title, price, children, detail }) => {
       });
       showToast(
         "success",
-        `Berhasil booking silahkan tunggu di konfirmasi oleh admin`
+        `Berhasil booking silahkan tunggu dikonfirmasi oleh admin`
       );
     } catch (error) {
       if (error && error instanceof AxiosError) {

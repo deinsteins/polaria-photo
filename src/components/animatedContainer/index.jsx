@@ -10,7 +10,7 @@ const AnimatedContainer = ({ children }) => {
     TweenMax.from(containerRef.current, 1, { opacity: 0, y: -10 });
     TweenMax.to(containerRef.current, 1, {
       y: 10,
-      opacity: 100,
+      opacity: 1,
       yoyo: true,
       repeat: -1,
     });
@@ -22,7 +22,7 @@ const AnimatedContainer = ({ children }) => {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ opacity: 0 }}>
+    <div className="sm:w-3/4 mx-auto" ref={containerRef} style={{ opacity: 0 }}>
       {children}
     </div>
   );

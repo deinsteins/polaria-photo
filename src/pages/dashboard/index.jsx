@@ -1,36 +1,39 @@
+import { useIsAuthenticated } from "react-auth-kit";
 import Footer from "../../components/footer";
 import NavBar from "../../components/navbar";
 import Tabs from "../../components/tabs/tabs";
-
-const tabs = [
-  {
-    id: 1,
-    tabTitle: "Riwayat Booking",
-    title: "Riwayat Booking",
-    content: "",
-  },
-  {
-    id: 2,
-    tabTitle: "Status Booking",
-    title: "Status Booking",
-    content: "",
-  },
-  {
-    id: 3,
-    tabTitle: "Galeri Photo",
-    title: "Galeri Photo",
-    content: "",
-  },
-];
+import { Navigate } from "react-router-dom";
+import BookingHistory from "./bookingHistory";
 
 const Dashboard = () => {
   const role = sessionStorage.getItem("role");
+  const isAuthenticated = useIsAuthenticated();
+
+  const tabs = [
+    {
+      id: 1,
+      tabTitle: "Riwayat Booking",
+      title: "Riwayat Booking",
+      content: <BookingHistory />,
+    },
+    {
+      id: 3,
+      tabTitle: "Galeri Photo",
+      title: "Galeri Photo",
+      content: "",
+    },
+  ];
+
   return (
     <>
       <NavBar bgnav={"#b7a58d"} role={role} />
-      <div className="flex">
-        <Tabs tabs={tabs} />
-      </div>
+      {isAuthenticated() ? (
+        <div className="flex">
+          <Tabs tabs={tabs} />
+        </div>
+      ) : (
+        <Navigate to="/login" />
+      )}
       <Footer />
     </>
   );

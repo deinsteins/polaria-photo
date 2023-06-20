@@ -17,8 +17,9 @@ const Pricing = () => {
     } catch (error) {
       if (error && error instanceof AxiosError) {
         showToast("error", error.response.data.error);
-      } else if (error && error instanceof Error)
+      } else if (error && error instanceof Error) {
         showToast("error", error.message);
+      }
     }
   };
 
@@ -32,7 +33,7 @@ const Pricing = () => {
       <h1 className="text-3xl font-bold text-center mt-4">
         Silahkan Pilih Paket yang diinginkan
       </h1>
-      <div className="flex justify-center gap-12 mt-8 py-8">
+      <div className="flex flex-col items-center gap-4 mt-8 py-8 px-4 sm:px-0">
         {bundle.map((bundle) => {
           const detailsArray = bundle.details;
           return (
@@ -41,9 +42,9 @@ const Pricing = () => {
               key={bundle.id}
               price={bundle.price}
               title={bundle.name}
-              detail="Yang didapat :"
+              detail="Yang didapat:"
             >
-              <ul style={{ listStyleType: "disc" }}>
+              <ul className="list-disc list-inside">
                 {Array.isArray(detailsArray) &&
                   detailsArray.map((detail, index) => (
                     <li key={index}>{detail}</li>

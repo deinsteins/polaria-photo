@@ -10,22 +10,30 @@ const NavBar = ({ bgnav, role, userRole }) => {
 
   return (
     <div
-      className="flex justify-between p-6 gap-12"
+      className="flex flex-col sm:flex-row justify-between p-6 gap-2 sm:gap-12"
       style={{ background: bgnav }}
     >
       <a href="/">
         <img src="/logo/polarialogo.png" alt="" />
       </a>
-      <div className="w-3/4 h-[10%] bg-[#494949] p-4 text-white rounded-full my-auto">
-        <div className="flex justify-around">
-          <a href="pricing">PRICING</a>
-          <a href="portofolio">PORTOFOLIO</a>
+      <div className="w-full sm:w-3/4 h-[10%] bg-[#494949] p-4 text-white rounded-full my-auto">
+        <div className="flex flex-col sm:flex-row justify-center sm:justify-around">
+          <a href="pricing" className="mb-2 sm:mb-0">
+            PRICING
+          </a>
+          <a href="portofolio" className="mb-2 sm:mb-0">
+            PORTOFOLIO
+          </a>
           {isAuthenticated() ? (
-            <div className="flex gap-16">
+            <div className="flex gap-4 sm:gap-16">
               {userRole || role === "admin" ? (
-                <a href="admin">DASHBOARD</a>
+                <a href="admin" className="mb-2 sm:mb-0">
+                  DASHBOARD
+                </a>
               ) : (
-                <a href="dashboard">DASHBOARD</a>
+                <a href="dashboard" className="mb-2 sm:mb-0">
+                  DASHBOARD
+                </a>
               )}
               <button
                 onClick={() => {
@@ -38,7 +46,9 @@ const NavBar = ({ bgnav, role, userRole }) => {
               </button>
             </div>
           ) : (
-            <a href="login">LOGIN/DAFTAR</a>
+            <a href="login" className="mb-2 sm:mb-0">
+              LOGIN/DAFTAR
+            </a>
           )}
         </div>
       </div>
