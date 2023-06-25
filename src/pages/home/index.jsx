@@ -37,7 +37,7 @@ const Home = () => {
         <AiOutlineLine className="mx-auto mt-6 sm:mt-16" size={40} />
       </div>
       <div className="px-4 sm:px-16 py-6 sm:py-20">
-        <div className="flex flex-wrap gap-4 sm:gap-6 justify-between">
+        <div className="flex flex-wrap gap-4 sm:gap-6 justify-between sm:justify-center md:justify-center">
           {data &&
             data.photos.map((photo, index) => {
               return (
