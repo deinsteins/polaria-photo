@@ -1,19 +1,12 @@
 import PropTypes from "prop-types";
-import useIsMobile from "../../utils/useIsMobile";
 import NavBarMobile from "./mobile";
+import NavBarDesktop from "./desktop";
+import { isMobile } from "react-device-detect";
 
 const NavBar = ({ bgnav, role, userRole }) => {
-  const isMobile = useIsMobile();
+  const RenderNavBar = isMobile ? NavBarMobile : NavBarDesktop;
 
-  return (
-    <>
-      {isMobile ? (
-        <NavBarMobile bgnav={bgnav} role={role} userRole={userRole} />
-      ) : (
-        <NavBar bgnav={bgnav} role={role} userRole={userRole} />
-      )}
-    </>
-  );
+  return <RenderNavBar bgnav={bgnav} role={role} userRole={userRole} />;
 };
 
 NavBar.propTypes = {
